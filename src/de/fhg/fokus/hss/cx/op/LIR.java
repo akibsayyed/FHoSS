@@ -221,10 +221,7 @@ public class LIR {
 			}
 			
 		}
-		catch(CxExperimentalResultException e){
-			UtilAVP.addExperimentalResultCode(response, e.getErrorCode(), e.getVendor());
-			e.printStackTrace();
-		}
+
 		catch(CxFinalResultException e){
 			UtilAVP.addResultCode(response, e.getErrorCode());
 			e.printStackTrace();
