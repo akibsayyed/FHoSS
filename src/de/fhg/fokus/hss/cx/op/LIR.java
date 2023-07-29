@@ -102,7 +102,7 @@ public class LIR {
 				
 				if (impu == null) {	
 					test=1;
-					UtilAVP.addServerName(response, "ims.matrixshell.com:5060");
+					UtilAVP.addServerName(response, "sip:ims.matrixshell.com:5060");
 					UtilAVP.addResultCode(response, DiameterConstants.ResultCode.DIAMETER_SUCCESS.getCode());
 					return response;
 					//throw new CxExperimentalResultException(DiameterConstants.ExperimentalResultCode.RC_IMS_DIAMETER_ERROR_USER_UNKNOWN);
@@ -114,7 +114,7 @@ public class LIR {
 			if (type == CxConstants.Identity_Type_Distinct_PSI || type == CxConstants.Identity_Type_Wildcarded_PSI){
 				if (impu.getPsi_activation() == 0){
 					test=1;
-					UtilAVP.addServerName(response, "ims.matrixshell.com:5060");
+					UtilAVP.addServerName(response, "sip:ims.matrixshell.com:5060");
 					UtilAVP.addResultCode(response, DiameterConstants.ResultCode.DIAMETER_SUCCESS.getCode());
 					return response;
 					// throw new CxExperimentalResultException(DiameterConstants.ExperimentalResultCode.RC_IMS_DIAMETER_ERROR_USER_UNKNOWN); 
@@ -122,7 +122,7 @@ public class LIR {
 			}
 
 			if(test==0){
-				UtilAVP.addServerName(response, "ims.matrixshell.com:5060");
+				UtilAVP.addServerName(response, "sip:ims.matrixshell.com:5060");
 				UtilAVP.addResultCode(response, DiameterConstants.ResultCode.DIAMETER_SUCCESS.getCode());
 				return response;
 			}
@@ -133,7 +133,7 @@ public class LIR {
 			if (impi_impu_list == null){
 				if(test==0)
 				{
-					UtilAVP.addServerName(response, "ims.matrixshell.com:5060");
+					UtilAVP.addServerName(response, "sip:ims.matrixshell.com:5060");
 					UtilAVP.addResultCode(response, DiameterConstants.ResultCode.DIAMETER_SUCCESS.getCode());
 				}
 					// throw new CxFinalResultException(DiameterConstants.ResultCode.DIAMETER_UNABLE_TO_COMPLY);
@@ -169,7 +169,7 @@ public class LIR {
 					break;
 			
 				case CxConstants.IMPU_user_state_Unregistered:
-				    	UtilAVP.addServerName(response, "ims.matrixshell.com:5060");
+				    	UtilAVP.addServerName(response, "sip:ims.matrixshell.com:5060");
 					UtilAVP.addResultCode(response, DiameterConstants.ResultCode.DIAMETER_SUCCESS.getCode());
 					
 					
@@ -193,7 +193,7 @@ public class LIR {
 
 				case CxConstants.IMPU_user_state_Not_Registered:
 
-					UtilAVP.addServerName(response, "ims.matrixshell.com:5060");
+					UtilAVP.addServerName(response, "sip:ims.matrixshell.com:5060");
 					UtilAVP.addResultCode(response, DiameterConstants.ResultCode.DIAMETER_SUCCESS.getCode());
 					/*unregistered_services = false;
 					
