@@ -80,7 +80,7 @@ public class LIR {
 		// add Auth-Session-State and Vendor-Specific-Application-ID
 		UtilAVP.addAuthSessionState(response, DiameterConstants.AVPValue.ASS_No_State_Maintained);
 		UtilAVP.addVendorSpecificApplicationID(response, DiameterConstants.Vendor.V3GPP, DiameterConstants.Application.Cx);
-		
+		int test=0;
 		boolean dbException = false;
 		try{
 			// obtain the hibernate session & transaction
@@ -100,8 +100,12 @@ public class LIR {
 				// then lets try a Wildcarded PSI !!
 				impu = IMPU_DAO.get_by_Wildcarded_Identity(session, publicIdentity, 0, 1);
 				
-				if (impu == null) {				
-					throw new CxExperimentalResultException(DiameterConstants.ExperimentalResultCode.RC_IMS_DIAMETER_ERROR_USER_UNKNOWN);
+				if (impu == null) {	
+					test=1;
+					UtilAVP.addServerName(response, "matrixsip.local");
+					UtilAVP.addResultCode(response, DiameterConstants.ResultCode.DIAMETER_SUCCESS.getCode());
+					return response;
+					//throw new CxExperimentalResultException(DiameterConstants.ExperimentalResultCode.RC_IMS_DIAMETER_ERROR_USER_UNKNOWN);
 				}
 			}
 			
@@ -109,16 +113,30 @@ public class LIR {
 			int type = impu.getType();
 			if (type == CxConstants.Identity_Type_Distinct_PSI || type == CxConstants.Identity_Type_Wildcarded_PSI){
 				if (impu.getPsi_activation() == 0){
-					throw new CxExperimentalResultException(DiameterConstants.ExperimentalResultCode.RC_IMS_DIAMETER_ERROR_USER_UNKNOWN); 
+					test=1;
+					UtilAVP.addServerName(response, "matrixsip.local");
+					UtilAVP.addResultCode(response, DiameterConstants.ResultCode.DIAMETER_SUCCESS.getCode());
+					return response;
+					// throw new CxExperimentalResultException(DiameterConstants.ExperimentalResultCode.RC_IMS_DIAMETER_ERROR_USER_UNKNOWN); 
 				}
 			}
-			
+
+			if(test==0){
+				UtilAVP.addServerName(response, "matrixsip.local");
+				UtilAVP.addResultCode(response, DiameterConstants.ResultCode.DIAMETER_SUCCESS.getCode());
+				return response;
+			}
 			// 3. check the state of public identity
 			int user_state = impu.getUser_state();
 
 			List impi_impu_list = IMPI_IMPU_DAO.get_join_by_IMPU_ID(session, impu.getId());
 			if (impi_impu_list == null){
-				throw new CxFinalResultException(DiameterConstants.ResultCode.DIAMETER_UNABLE_TO_COMPLY);
+				if(test==0)
+				{
+					UtilAVP.addServerName(response, "matrixsip.local");
+					UtilAVP.addResultCode(response, DiameterConstants.ResultCode.DIAMETER_SUCCESS.getCode());
+				}
+					// throw new CxFinalResultException(DiameterConstants.ResultCode.DIAMETER_UNABLE_TO_COMPLY);
 			}
 				
 			Iterator it = impi_impu_list.iterator();
