@@ -151,8 +151,11 @@ public class LIR {
 					break;
 			
 				case CxConstants.IMPU_user_state_Unregistered:
-				    
-					boolean unregistered_services = false;
+				    	UtilAVP.addServerName(response, "matrixsip.local");
+					UtilAVP.addResultCode(response, DiameterConstants.ResultCode.DIAMETER_SUCCESS.getCode());
+					
+					
+					/*boolean unregistered_services = false;
 					if (SP_IFC_DAO.get_Unreg_Serv_Count(session, impu.getId_sp()) > 0){
 						unregistered_services = true;
 					}
@@ -167,11 +170,14 @@ public class LIR {
 					else{
 						// cannot fulfil the request
 						throw new CxFinalResultException(DiameterConstants.ResultCode.DIAMETER_UNABLE_TO_COMPLY);
-					}
+					}*/
 					break;
 
 				case CxConstants.IMPU_user_state_Not_Registered:
-					unregistered_services = false;
+
+					UtilAVP.addServerName(response, "matrixsip.local");
+					UtilAVP.addResultCode(response, DiameterConstants.ResultCode.DIAMETER_SUCCESS.getCode());
+					/*unregistered_services = false;
 					
 					int cnt =SP_IFC_DAO.get_Unreg_Serv_Count(session, impu.getId_sp());
 					if (cnt > 0){
@@ -192,7 +198,7 @@ public class LIR {
 					else{
 						UtilAVP.addExperimentalResultCode(response, 
 								DiameterConstants.ExperimentalResultCode.RC_IMS_DIAMETER_ERROR_IDENTITY_NOT_REGISTERED.getCode(), DiameterConstants.Vendor.V3GPP);
-					}
+					}*/
 					break;
 			}
 			
